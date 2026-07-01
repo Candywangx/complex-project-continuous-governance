@@ -6,7 +6,10 @@ Use this file for a 5-30 minute small loop that tests the biggest uncertainty be
 
 - round_index:
 - round_goal:
-- active_goal link if continuous:
+- active_goal_summary link if continuous:
+- codex_goal_lifecycle_mode:
+- current_tool_goal_status:
+- goal_handoff_carrier:
 - round_execution_prompt:
 - plan_alignment_to_master_prompt:
 - core_goal_plan_loop_required: yes / no
@@ -21,6 +24,8 @@ Use this file for a 5-30 minute small loop that tests the biggest uncertainty be
 - topology decision:
 - capability review due: yes / no
 - capability decision:
+- per-round goal lifecycle due: yes / no
+- per-round goal lifecycle decision:
 - goal refresh due: yes / no
 - goal decision:
 
@@ -61,4 +66,5 @@ Use this file for a 5-30 minute small loop that tests the biggest uncertainty be
 - delivery contract updated:
 - recovery record updated:
 - next round_goal:
+- tool goal close or migration note:
 - next refresh trigger:

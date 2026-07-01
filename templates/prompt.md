@@ -65,8 +65,9 @@ This prompt is an execution contract for one project. It does not replace the Co
 推进节拍：
 
 目标与计划：
-- active_goal（如连续项目需要）：
+- active_goal_summary（长期方向，写入 state/master prompt，不等同于长期工具 Goal）：
 - round_goal：
+- Codex 工具 Goal 生命周期：本拍窄目标 / 不使用 / 迁移旧目标
 - 本轮计划：
 
 Loop 小循环：
@@ -87,7 +88,7 @@ Loop 小循环：
 - 机器恢复记录：
 - 不应暴露的内部信息：
 
-请先恢复或建立 state/current_basis，再执行本轮 round_goal。每轮结束时留下 next_route；如果启用连续节拍，每 3 轮复查工具、子代理/线程职责和 goal 是否过期。
+请先恢复或建立 state/current_basis，再执行本轮 round_goal。每轮结束时留下 next_route；如果启用连续节拍，每拍使用窄 round_goal，连续性由 state、master prompt 和 next_route 承接；每 3 轮复查工具、子代理/线程职责和 goal 生命周期是否过期。
 ```
 
 ## Execution Bridge
@@ -105,6 +106,8 @@ Use this section at the start of each continuous round, Plan-mode continuation, 
 - round_index:
 - master_prompt_location:
 - active_goal_summary:
+- codex_goal_lifecycle_mode:
+- goal_handoff_carrier:
 - latest state/current_basis:
 - inherited master constraints:
 - previous-round status:
@@ -118,5 +121,6 @@ Rules:
 
 - Compress and inherit the confirmed master prompt; do not rewrite it unless the user explicitly changes the main goal.
 - Treat user detail changes as prompt patches by default.
+- Do not put the whole continuous cadence into one long Codex tool Goal; use a per-round narrow goal or protocol_round_goal.
 - Generate the Plan and Loop from `round_execution_prompt`, not from the local task alone.
 - If the round prompt cannot be reconstructed, route back to state recovery before execution.

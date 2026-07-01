@@ -13,7 +13,7 @@
 - `capability_discovery_cadence_gate` 增加连续节拍周期性能力复盘。
 - `persistent_thread_orchestration_contract` 增加长期线程职责复核。
 - `protocol_onboarding_comprehension_gate` 增加 Plan 模式完整扫描要求。
-- 新增 `goal_refresh_gate`，区分 active_goal、round_goal 和 next_route。
+- 新增 `goal_refresh_gate`，区分 active_goal_summary、工具 Goal、round_goal 和 next_route。
 - 失败模式库新增 protocol scan、scheduled topology/capability refresh、Plan full scan undercoverage 和 fake goal drift。
 - Runtime Kit 状态与 Loop 模板增加 round_index、review_interval、topology/capability/goal refresh 字段。
 - 发布包同步新增相关能力项。

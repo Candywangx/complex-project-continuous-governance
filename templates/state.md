@@ -31,12 +31,17 @@ Use this file to make a Complex project resumable. Keep it short enough that a l
 
 ## Goal State
 
-- active_goal:
+- active_goal_summary:
 - round_goal:
 - core_goal_plan_loop_status:
+- codex_goal_lifecycle_mode: none / per_round_narrow_goal / long_goal_legacy / tool_unavailable
+- current_tool_goal_status: not_used / active / complete / blocked / stale / unknown
+- goal_handoff_carrier: state_next_route / closure_routing / master_prompt / codex_tool_goal / mixed
+- protocol_round_goal:
 - goal_refresh_status:
 - stale_goal_check:
 - goal_migration_note:
+- manual_clear_needed:
 
 ## Collaboration Topology
 

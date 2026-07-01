@@ -30,7 +30,7 @@ This card is not a new mandatory verifier field. It is a low-friction way to avo
 
 ## Prompt Bootstrap
 
-When a user wants to do the minimum human work by saying "scan Complex and design a prompt for this project", use `complex_prompt_bootstrap_gate` and `templates/prompt.md`.
+When a user wants to give a short but high-fit instruction such as "scan Complex and design a prompt for this project", use `complex_prompt_bootstrap_gate` and `templates/prompt.md`.
 
 The agent should:
 
@@ -43,6 +43,12 @@ The agent should:
 This bootstrap is especially useful for new projects, new users, or handoff into another Codex thread where the receiving agent needs a compact but complete execution prompt.
 
 For continuous prompt-based projects, rehydrate the prompt each round before planning. The round prompt should inherit the confirmed master prompt, current state, capability policy, topology, and delivery contract, then add only the current `round_goal` and prompt patches. Rehydration is not new authorization to use accounts, APIs, external writes, or subagents beyond the existing boundary.
+
+## Per-Round Goal Lifecycle
+
+Continuous cadence should not depend on one long Codex tool Goal that spans dozens of rounds. Use state, master prompt, closure routing, and `next_route` as the continuity carriers. When a tool Goal is useful, make it a narrow per-round objective that can be completed when that beat finishes.
+
+If a current tool Goal is stale or blocked but the project state still shows a viable next route, treat the situation as a goal lifecycle mismatch, not a project blockage. Record a `protocol_round_goal` or `goal_migration_note`, continue from state, and only ask for manual cleanup if the tool state itself prevents the next round.
 
 ## When To Reconsider Capabilities
 

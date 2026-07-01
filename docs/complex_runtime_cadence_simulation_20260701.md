@@ -48,7 +48,7 @@
 
 - 先触发 `complex_prompt_bootstrap_gate`，业务执行暂停。
 - 输出 `protocol_scan_summary`、`startup_questions_or_defaults`、`project_prompt_design_rationale`、`copy_ready_prompt` 和 `execution_bridge`。
-- `copy_ready_prompt` 必须包含项目目标、材料、交付对象、能力边界、协作拓扑、cadence、round_goal/active_goal、Loop、评分路由、证据/权限边界和恢复记录方式。
+- `copy_ready_prompt` 必须包含项目目标、材料、交付对象、能力边界、协作拓扑、cadence、round_goal/active_goal_summary/工具 Goal 生命周期、Loop、评分路由、证据/权限边界和恢复记录方式。
 - 用户确认前不执行、发布或写外部系统；确认后仍以 Complex 主协议和用户最新指令为准。
 
 模拟结论：
@@ -68,11 +68,11 @@
 
 - 第一轮 `copy_ready_prompt` 质量高，但第二轮 Plan 只关注当前任务，把总规划降级成一句“遵循前文”。
 - 用户补充局部细节后，Plan 把细节放大成主线，长期目标、能力边界和交付契约逐渐淡化。
-- 连续几轮后，`active_goal`、`next_route` 和项目实际版本仍在推进，但 master prompt 没有进入恢复链。
+- 连续几轮后，`active_goal_summary`、`next_route` 和项目实际版本仍在推进，但 master prompt 没有进入恢复链。
 
 新期望：
 
-- 先触发 `round_prompt_rehydration_gate`，从 master prompt / active goal、最新 state 和本轮最高杠杆问题生成 `round_execution_prompt`。
+- 先触发 `round_prompt_rehydration_gate`，从 master prompt / active_goal_summary、最新 state 和本轮最高杠杆问题生成 `round_execution_prompt`。
 - 第二轮 Plan 必须写明：来自总规划的约束、来自上一轮状态的变化、本轮新增判断。
 - 用户补充局部细节时默认作为 prompt patch 写入本轮 prompt；除非用户明确改目标，否则总 prompt 不重写。
 - 到第 3 轮或主链变化时，同时触发 prompt rehydration、goal refresh、工具/线程复查。
@@ -81,6 +81,32 @@
 
 - 新协议可检查到 `round_plan_attention_drift_gap`、`master_prompt_decay_gap` 和 `round_prompt_missing_gap`。
 - Runtime Kit 由 `templates/prompt.md` 的 Round Prompt Rehydration、`templates/loop.md` 的 `round_execution_prompt` 和 `templates/state.md` 的 master prompt 字段承接。
+
+## Scenario 0.7: 工具 Goal blocked 但项目没有 blocked
+
+用户提示：
+
+```text
+连续节拍推进时，当前 Goal 显示 blocked，但项目实际已经从 v51 推进到 v65。
+```
+
+旧风险：
+
+- 模型把“连续节拍直到停止”塞进一个长期 Codex 工具 Goal，几十轮后 objective 仍写旧版本。
+- 工具 Goal 被判 blocked 后，模型把工具生命周期问题误判成项目研究卡死。
+- 用户需要手动清理工具状态，否则下一拍无法自然接上。
+
+新期望：
+
+- 先触发 `per_round_goal_lifecycle_gate`，读取工具 Goal 状态、项目版本、current_basis 和 next_route。
+- 若 current_basis 证明项目仍可继续，标记 `stale_or_blocked_tool_goal`，不把项目判成 blocked。
+- 连续性由 state、master prompt、closure routing 和 `next_route` 承接；工具 Goal 只做本拍窄目标。
+- 如果工具无法清理 blocked 状态，写 `protocol_round_goal`、`goal_migration_note` 和必要的 `manual_clear_needed`，继续按 state 推进。
+
+模拟结论：
+
+- 新协议可检查到 `long_lived_goal_blocked_gap`、`blocked_goal_false_project_block_gap` 和 `round_goal_tool_lifecycle_drift_gap`。
+- Runtime Kit 由 `templates/state.md` 的 codex goal lifecycle 字段和 `templates/loop.md` 的 per-round goal lifecycle decision 承接。
 
 ## Scenario 1: Plan Mode 完整扫描 Complex
 
@@ -142,14 +168,14 @@
 
 旧风险：
 
-- active goal 仍写 v32，实际工作已到 v38。
+- 长期目标摘要或工具 Goal 仍写 v32，实际工作已到 v38。
 - round_goal 完成后，模型把整个长期目标标成 complete，导致 next_route 没有继续触发。
 
 新期望：
 
 - 每轮开始运行 `goal_refresh_gate`。
-- 区分 active_goal、round_goal 和 next_route：active_goal 服务持续会话，round_goal 服务本轮 Loop。
-- 若 active_goal 与 current_basis、版本号、next_route 或交付对象不一致，标记 `stale_goal`，迁移到新目标或写 `protocol_round_goal`。
+- 区分 active_goal_summary、工具 Goal、round_goal 和 next_route：长期方向服务持续会话，工具 Goal 默认服务本轮 Loop。
+- 若目标摘要或工具 Goal 与 current_basis、版本号、next_route 或交付对象不一致，标记 `stale_goal`，迁移到新目标或写 `protocol_round_goal`。
 - round_goal 完成只更新本轮，不自动结束 continuous route。
 
 模拟结论：
@@ -159,7 +185,7 @@
 
 ## Overall Result
 
-本轮修复把用户体验问题转成 11 个可触发机制：
+本轮修复把用户体验问题转成 12 个可触发机制：
 
 1. `protocol_scan_sequence`
 2. `complex_prompt_bootstrap_gate`
@@ -167,10 +193,11 @@
 4. `continuous_cadence_refresh_gate`
 5. `scheduled_topology_capability_review`
 6. `goal_refresh_gate`
-7. `plan_mode_full_scan_coverage`
-8. `complex_setup_question_card`
-9. `user_visible_trigger_guide`
-10. `core_goal_plan_loop_required`
-11. 内部工作力度/风险升级，替代用户侧普通/重大模式选择
+7. `per_round_goal_lifecycle_gate`
+8. `plan_mode_full_scan_coverage`
+9. `complex_setup_question_card`
+10. `user_visible_trigger_guide`
+11. `core_goal_plan_loop_required`
+12. 内部工作力度/风险升级，替代用户侧普通/重大模式选择
 
 这些机制默认不新增 verifier required 字段；它们先作为主协议行为规则、Runtime Kit 模板字段和发布包能力项存在。若后续真实项目继续暴露同类问题，再考虑把其中稳定可检查的字段纳入恢复链验证器。

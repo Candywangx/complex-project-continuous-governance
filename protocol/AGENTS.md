@@ -22,6 +22,8 @@ This directory contains the current authoritative Complex project continuous-gov
 - In continuous prompt-based projects, apply `round_prompt_rehydration_gate` before each new Plan/Loop so the round plan inherits the master prompt, current state, and round_goal instead of drifting into a local-only plan.
 - Do not ask users to choose ordinary vs major project modes. Complex always has Goal/Plan/Loop, scoring, delivery alignment, and recovery; high-risk or high-rework signals only raise internal evidence and validation intensity.
 - When users mention continuous cadence, long-running threads, subagents, Goal mode, Plan mode, or version drift, check round_index, topology fit, capability fit, and goal freshness before continuing.
+- Do not put a whole continuous cadence into one long Codex tool Goal. Continuity belongs in state, master prompt, closure routing, and next_route; Codex tool Goal should normally be one narrow round objective that can be completed at the end of that beat.
+- If a tool Goal is blocked or stale while current_basis and next_route still show usable progress, record a goal lifecycle mismatch and continue via protocol_round_goal / goal_migration_note instead of declaring the project blocked.
 - For human-readable deliverables, keep protocol jargon, machine board fields, and internal state out of the main explanation unless they are necessary for the reader's decision.
 - For comments, teacher-facing notes, third-party summaries, or mixed human/machine outputs, align audience, purpose, granularity, tone, and internal-information boundary before final delivery.
 
