@@ -17,11 +17,13 @@ This directory contains the current authoritative Complex project continuous-gov
 - When users mention external tools, skills, APIs, databases, browser access, accounts, Auto Research, or Complex, convert those hints into an explicit capability list with selected, rejected, backlog, and manual-action items before executing.
 - When a new project asks to read Complex or Auto Research, first understand the relevant protocol components, tool boundaries, Loop/scoring rules, runtime templates, and delivery rules; shallow acknowledgment is not enough.
 - When a user only says "use Complex" or "按 Complex 推进", apply the `complex_setup_question_card`: delivery audience, external capability permission, collaboration topology, cadence, and manual-action boundaries. If unanswered and safe, record defaults instead of blocking.
-- Show new users the `user_visible_trigger_guide` in ordinary language so they know "先设计提示词/prompt", "连续节拍", "多线程/子代理", "外部工具/账号/API", "完整扫描 Complex", and "只要人看版" are available steering words.
+- Show new users the `user_visible_trigger_guide` in ordinary language so they know "先设计提示词/prompt", "连续节拍", "多线程/子代理", "外部工具/账号/API", "完整扫描 Complex", "只要人看版", "模型发现型/先发散研究框架/不要早收敛", and "先做问题-观点-论据图" are available steering words.
+- At Complex entry, classify `project_nature` as evidence_fill, model_discovery, mixed, or execution_delivery. If model, formula, metric, research frame, explanation path, or story line is unsettled, protect divergent model discovery before evidence filling.
+- For model_discovery or pre-convergence mixed work, preserve candidate frameworks, issue/position/pro/con argument maps, discriminating probes, and convergence conditions; do not let an easy evidence gap or tool route become the main goal too early.
 - When the user asks to scan Complex and design a project prompt before execution, apply `complex_prompt_bootstrap_gate`: scan the relevant protocol, ask/default startup choices, output a copy-ready prompt, and wait for confirmation before business execution unless the user explicitly authorizes immediate execution.
 - In continuous prompt-based projects, apply `round_prompt_rehydration_gate` before each new Plan/Loop so the round plan inherits the master prompt, current state, and round_goal instead of drifting into a local-only plan.
 - Do not ask users to choose ordinary vs major project modes. Complex always has Goal/Plan/Loop, scoring, delivery alignment, and recovery; high-risk or high-rework signals only raise internal evidence and validation intensity.
-- When users mention continuous cadence, long-running threads, subagents, Goal mode, Plan mode, or version drift, check round_index, topology fit, capability fit, and goal freshness before continuing.
+- When users mention continuous cadence, long-running threads, subagents, Goal mode, Plan mode, or version drift, check round_index, topology fit, capability fit, and goal freshness before continuing. Use event-triggered refresh first; 3 rounds is a fallback cap, not a mechanical full review.
 - Do not put a whole continuous cadence into one long Codex tool Goal. Continuity belongs in state, master prompt, closure routing, and next_route; Codex tool Goal should normally be one narrow round objective that can be completed at the end of that beat.
 - If a tool Goal is blocked or stale while current_basis and next_route still show usable progress, record a goal lifecycle mismatch and continue via protocol_round_goal / goal_migration_note instead of declaring the project blocked.
 - For human-readable deliverables, keep protocol jargon, machine board fields, and internal state out of the main explanation unless they are necessary for the reader's decision.
@@ -30,7 +32,7 @@ This directory contains the current authoritative Complex project continuous-gov
 ## File Placement
 
 - Keep protocol artifacts inside this repository when one is clear.
-- Put Runtime Kit templates in `templates/` and runtime capability notes in `docs/runtime-skill-management.md`.
+- Put Runtime Kit templates in `templates/` and runtime capability notes in `docs/runtime-skill-management.md`; model-discovery landing pads belong in `templates/framing.md` and `templates/argument.md`.
 - Put project-level capability manifests and optional local skills in `.codex/`.
 - Put copied historical records in `docs/history/` and migration notes in `docs/migration/`.
 - Use `/Users/chuchenqidawang/Documents/日常/03_产出_Deliverables/` for general final deliverables that do not belong to a specific research project.

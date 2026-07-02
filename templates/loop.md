@@ -13,10 +13,16 @@ Use this file for a 5-30 minute small loop that tests the biggest uncertainty be
 - round_execution_prompt:
 - plan_alignment_to_master_prompt:
 - core_goal_plan_loop_required: yes / no
+- project_nature: evidence_fill / model_discovery / mixed / execution_delivery
+- convergence_status:
+- loop_type: framework_probe / evidence_check / capability_trial / execution_check / delivery_check
+- candidate_framework_or_evidence_path:
+- discriminating_probe:
 - Main uncertainty:
 - Why this uncertainty matters:
 - What a small test can prove:
 - What it cannot prove:
+- What this probe can distinguish:
 
 ## Refresh Gates
 
@@ -24,6 +30,8 @@ Use this file for a 5-30 minute small loop that tests the biggest uncertainty be
 - topology decision:
 - capability review due: yes / no
 - capability decision:
+- capability refresh mode: event_triggered / fallback_cap / lightweight_keep
+- event trigger:
 - per-round goal lifecycle due: yes / no
 - per-round goal lifecycle decision:
 - goal refresh due: yes / no
@@ -50,6 +58,9 @@ Use this file for a 5-30 minute small loop that tests the biggest uncertainty be
 | --- | --- | --- |
 | Goal clarity |  |  |
 | Evidence strength |  |  |
+| Problem definition quality |  |  |
+| Candidate framework diversity |  |  |
+| Discriminating probe quality |  |  |
 | Capability fit |  |  |
 | Rework risk |  |  |
 | Delivery readiness |  |  |

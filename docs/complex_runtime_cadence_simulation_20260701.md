@@ -148,15 +148,16 @@
 
 新期望：
 
-- round 1 建立 `round_index: 1`、`review_interval: 3`、topology_summary 和 capability_summary。
-- round 3 或主链变化时触发 `continuous_cadence_refresh_gate`。
+- round 1 建立 `round_index: 1`、topology_summary、capability_summary 和 event_triggered_review_status。
+- 主链、项目性质、证据路径、材料类型、交付对象、版本号、外部边界或子线程输出失配时触发 `continuous_cadence_refresh_gate`。
+- 3 轮只是兜底上限；无事件触发时只写 lightweight keep，不重跑完整工具和线程盘点。
 - 主线程必须给每个分线程一个结果：keep / adjust / pause / close / replace。
 - 能力清单必须给每个工具一个结果：keep / adjust / replace / pause / manual_action / retire。
 
 模拟结论：
 
 - 新协议可检查到 `scheduled_topology_refresh_gap` 和 `scheduled_capability_refresh_gap`。
-- `templates/state.md` 已有 topology/capability 复盘字段，`docs/runtime-skill-management.md` 已有每 3 轮刷新规则。
+- `templates/state.md` 已有 topology/capability 复盘字段，`docs/runtime-skill-management.md` 已改为事件触发优先、3 轮兜底上限。
 
 ## Scenario 3: Goal 停在旧版本或一轮完成后停止
 
@@ -183,9 +184,101 @@
 - 新协议可检查到 `fake_goal_drift_gap`。
 - `templates/state.md` 和 `templates/loop.md` 已增加 goal_refresh_status、stale_goal_check、round_goal 和 next refresh trigger。
 
+## Scenario 4: 证据填充型任务不增加发散负担
+
+用户提示：
+
+```text
+按 Complex 推进这个数据审计任务，模型和指标表已经确定，只需要补齐来源和验证。
+```
+
+旧风险：
+
+- 新增模型发现机制后，模型为了“完整”强行展开 3-5 个研究框架，反而增加无效流程。
+
+新期望：
+
+- `project_nature_router` 判定为 `evidence_fill`。
+- 记录 `divergence_noop_reason`：模型、指标和表格已定。
+- 直接进入 current_basis、evidence_matrix、source_authority、validation 和 delivery_contract。
+
+模拟结论：
+
+- 模型发现层不会把证据填充型任务拖重。
+- Runtime Kit 可只用 `state.md`、`evidence.md`、`loop.md` 和 `delivery.md`，不强制填写完整 `framing.md`。
+
+## Scenario 5: 模型发现型任务不直接证据填表
+
+用户提示：
+
+```text
+这是模型发现型任务，研究框架还没定。先不要证据填表，请先发散研究框架。
+```
+
+旧风险：
+
+- 模型把“找资料”“补证据”“选工具”当成主线，过早进入熟悉的审计流程。
+
+新期望：
+
+- `project_nature_router` 判定为 `model_discovery`。
+- 先运行 `anti_premature_convergence_gate`、`ibis_argument_map_gate` 和 `thought_search_gate`。
+- 输出 3-5 个候选框架、核心假设、支持/反对理由、可区分证据和最小探针。
+- 未形成候选池前，局部资料缺口不能成为主目标。
+
+模拟结论：
+
+- 新协议可检查到 `premature_convergence_greedy_gap`、`evidence_audit_overrouting_gap`、`model_discovery_underprotected_gap` 和 `argument_map_missing_gap`。
+- Runtime Kit 由 `templates/framing.md` 和 `templates/argument.md` 承接。
+
+## Scenario 6: 混合型任务先发散后切换证据审计
+
+用户提示：
+
+```text
+我想先确定研究解释框架，再用文献和数据支撑它。
+```
+
+旧风险：
+
+- 要么一直发散不落地，要么过早把第一个框架当成结论后开始填材料。
+
+新期望：
+
+- `project_nature_router` 判定为 `mixed`。
+- 收敛前按 model_discovery 权重评分：问题定义、候选多样性、反例、可区分探针和延迟收敛质量。
+- 满足 convergence_switch_conditions 后，记录 switch_reason，并切回 evidence_fill 权重。
+
+模拟结论：
+
+- Complex 可以在“发现模型”和“审计证据”之间切换，不把二者混成同一个贪心循环。
+
+## Scenario 7: 无事件触发时能力复查不机械打断
+
+用户提示：
+
+```text
+连续节拍继续，本轮仍是同一主链，没有新增工具或交付对象变化。
+```
+
+旧风险：
+
+- 每到固定轮次就完整复查工具、线程和 Goal，稀释本轮任务注意力。
+
+新期望：
+
+- `event_triggered_capability_refresh` 检查是否出现项目性质、主链、证据路径、材料类型、外部边界、子线程职责或交付对象变化。
+- 若无触发，记录 `lightweight_keep`。
+- 3 轮兜底只做轻量 fit check；发现真实不匹配时才加深。
+
+模拟结论：
+
+- 新协议可检查到 `mechanical_cadence_overhead_gap`。
+- 连续节拍保持可恢复，但不把复盘变成常规打断。
+
 ## Overall Result
 
-本轮修复把用户体验问题转成 12 个可触发机制：
+本轮修复把用户体验问题转成 17 个可触发机制：
 
 1. `protocol_scan_sequence`
 2. `complex_prompt_bootstrap_gate`
@@ -199,5 +292,10 @@
 10. `user_visible_trigger_guide`
 11. `core_goal_plan_loop_required`
 12. 内部工作力度/风险升级，替代用户侧普通/重大模式选择
+13. `project_nature_router`
+14. `anti_premature_convergence_gate`
+15. `ibis_argument_map_gate`
+16. `thought_search_gate`
+17. `event_triggered_capability_refresh`
 
 这些机制默认不新增 verifier required 字段；它们先作为主协议行为规则、Runtime Kit 模板字段和发布包能力项存在。若后续真实项目继续暴露同类问题，再考虑把其中稳定可检查的字段纳入恢复链验证器。

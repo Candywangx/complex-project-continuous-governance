@@ -12,6 +12,7 @@ Ask briefly, or state safe defaults if the task is low risk:
 - Capabilities: May the agent use web, browser, databases, accounts, APIs, skills, plugins, or external methods? Which require explicit authorization?
 - Collaboration: Should the main thread handle this first, or should subagents, parallel checks, or long-running threads be considered?
 - Cadence: Should this be one round with a clear next route, or continuous cadence until the user stops it?
+- Project nature: Is the model, formula, research frame, or evidence table already fixed, or should the agent first protect divergent model discovery?
 - Boundaries: Are there privacy, payment, publishing, account, evidence, or real-world action limits?
 
 Safe default if unanswered:
@@ -25,6 +26,7 @@ Safe default if unanswered:
 User-visible trigger guide:
 
 > You can say "先设计提示词/prompt", "连续节拍", "多线程/子代理", "外部工具/账号/API", "完整扫描 Complex", or "只要人看版" to change how the project is run.
+> You can also say "这是模型发现型任务", "先发散研究框架", "不要早收敛", or "先做问题-观点-论据图" when the research model is not settled yet.
 
 ## Complex Prompt Bootstrap Card
 
@@ -35,6 +37,7 @@ Ask briefly, or state safe defaults if the task is low risk:
 - Project: What is the project goal, and what material should the prompt assume exists?
 - Execution: Should the generated prompt be used in this thread after confirmation, or copied into a new project/thread?
 - Cadence: Should the prompt default to one round with `next_route`, or continuous cadence with scheduled refresh?
+- Project nature: Should the prompt treat this as evidence filling, model discovery, mixed discovery-to-evidence, or execution delivery?
 - Capabilities: Which tools, browser paths, accounts, APIs, skills, plugins, or subagents may the prompt authorize or only list as candidates?
 - Delivery: Who will read the result, and should the prompt enforce human-readable, machine-recovery, teacher/expert-facing, third-party-facing, or mixed delivery?
 

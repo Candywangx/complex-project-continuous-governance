@@ -4,7 +4,7 @@ Use this file when a user wants the agent to scan Complex, design a project-spec
 
 This prompt is an execution contract for one project. It does not replace the Complex protocol, the user's latest instruction, or authorization boundaries.
 
-## Minimal User Request
+## High-Fit User Request
 
 ```text
 请帮我扫描 Complex，并对我们的项目设计提示词。之后给出一个可复制的 prompt；我确认后，再根据这个 prompt 结合 Complex 推进项目。
@@ -26,6 +26,9 @@ This prompt is an execution contract for one project. It does not replace the Co
 - Current basis:
 - Known constraints:
 - High-risk or high-rework signals:
+- Project nature: evidence_fill / model_discovery / mixed / execution_delivery
+- Convergence status:
+- Candidate frameworks or known fixed model:
 
 ## Startup Questions or Defaults
 
@@ -33,15 +36,18 @@ This prompt is an execution contract for one project. It does not replace the Co
 - Capability permission:
 - Collaboration topology:
 - Cadence:
+- Project nature and convergence preference:
 - Evidence, privacy, account, publishing, or manual-action boundary:
 
 ## Prompt Design Rationale
 
 - Why this goal needs Complex:
+- Why this project is evidence_fill / model_discovery / mixed / execution_delivery:
 - Why these capabilities are selected or rejected:
 - Why this collaboration topology fits:
 - Why this cadence fits:
 - What the first Loop should test:
+- What prevents premature convergence:
 - What would trigger route-back:
 
 ## Copy-Ready Prompt
@@ -64,6 +70,12 @@ This prompt is an execution contract for one project. It does not replace the Co
 
 推进节拍：
 
+项目性质与收敛状态：
+- project_nature：
+- convergence_status：
+- 如果模型/研究框架未定：先保留候选框架、问题-观点-论据图和可区分探针，不直接进入证据填表。
+- 如果模型/表格已定：记录 divergence_noop_reason，避免形式化发散。
+
 目标与计划：
 - active_goal_summary（长期方向，写入 state/master prompt，不等同于长期工具 Goal）：
 - round_goal：
@@ -72,6 +84,9 @@ This prompt is an execution contract for one project. It does not replace the Co
 
 Loop 小循环：
 - 最大不确定性：
+- 本轮 loop_type：framework_probe / evidence_check / capability_trial / execution_check
+- candidate_framework_or_evidence_path：
+- discriminating_probe：
 - 5-30 分钟验证动作：
 - 通过标准：
 - 失败后的 route-back：
@@ -88,7 +103,7 @@ Loop 小循环：
 - 机器恢复记录：
 - 不应暴露的内部信息：
 
-请先恢复或建立 state/current_basis，再执行本轮 round_goal。每轮结束时留下 next_route；如果启用连续节拍，每拍使用窄 round_goal，连续性由 state、master prompt 和 next_route 承接；每 3 轮复查工具、子代理/线程职责和 goal 生命周期是否过期。
+请先恢复或建立 state/current_basis，再判断 project_nature 和 convergence_status，然后执行本轮 round_goal。每轮结束时留下 next_route；如果启用连续节拍，每拍使用窄 round_goal，连续性由 state、master prompt 和 next_route 承接。工具、子代理/线程职责和 goal 生命周期采用事件触发优先的复查；3 轮只是兜底上限，无触发时只写 lightweight keep。
 ```
 
 ## Execution Bridge
@@ -109,6 +124,9 @@ Use this section at the start of each continuous round, Plan-mode continuation, 
 - codex_goal_lifecycle_mode:
 - goal_handoff_carrier:
 - latest state/current_basis:
+- project_nature:
+- convergence_status:
+- candidate_frameworks or fixed evidence model:
 - inherited master constraints:
 - previous-round status:
 - new round judgment:

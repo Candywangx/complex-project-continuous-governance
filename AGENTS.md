@@ -28,17 +28,19 @@ This project is the current authoritative workspace for the Complex project cont
 - If a user names external tools, skills, APIs, databases, accounts, browsers, Auto Research, or Complex, bind those words into an explicit capability list before executing; state what will be used, skipped, backlogged, or delegated to manual user action.
 - If another project asks to read Complex or Auto Research, first spend visible effort understanding the relevant protocol components, dynamic loop, scoring/route-back rules, delivery boundaries, and tool boundaries; do not start the project work from a shallow protocol mention.
 - If a user only says "use Complex" or "按 Complex 推进", show or apply the `complex_setup_question_card`: delivery audience, capability permissions, collaboration topology, cadence, and manual-action boundaries.
-- Show new users the `user_visible_trigger_guide` in plain language: "先设计提示词/prompt", "连续节拍", "多线程/子代理", "外部工具/账号/API", "完整扫描 Complex", and "只要人看版" are available steering words.
+- Show new users the `user_visible_trigger_guide` in plain language: "先设计提示词/prompt", "连续节拍", "多线程/子代理", "外部工具/账号/API", "完整扫描 Complex", "只要人看版", "模型发现型/先发散研究框架/不要早收敛", and "先做问题-观点-论据图" are available steering words.
+- At Complex entry, classify `project_nature` as evidence_fill, model_discovery, mixed, or execution_delivery. If the model, formula, metric, research frame, or explanation path is unsettled, protect model discovery before evidence filling.
+- For model_discovery or pre-convergence mixed work, keep candidate frameworks, issue/position/pro/con argument maps, discriminating probes, and convergence conditions visible; do not let a local evidence gap or tool path become the main goal too early.
 - If the user asks to scan Complex and design a project prompt before execution, apply `complex_prompt_bootstrap_gate`: scan the relevant protocol, ask/default startup choices, output a copy-ready prompt, and wait for confirmation before business execution unless the user explicitly authorizes immediate execution.
 - In continuous prompt-based projects, apply `round_prompt_rehydration_gate` before each new Plan/Loop: recover the master prompt or active_goal_summary, current state, and round_goal into a `round_execution_prompt` so the round plan does not drift away from the total plan.
 
 ## Runtime Kit
 
-- Treat `templates/` as optional landing pads for new projects: state, evidence, decision, search, question, prompt, loop, and delivery records.
+- Treat `templates/` as optional landing pads for new projects: state, evidence, decision, search, question, prompt, framing, argument, loop, and delivery records.
 - Do not turn Runtime Kit templates into new mandatory protocol fields unless repeated real project failures justify promotion.
 - When bootstrapping a new Complex project, prefer a small runtime skeleton over copying the full protocol into the project workspace.
 - Do not ask users to choose ordinary vs major project modes. Complex always uses Goal/Plan/Loop, scoring, delivery alignment, and recovery; high-risk or high-rework work only raises internal evidence and validation intensity.
-- In continuous cadence, record round_index and review topology, capabilities, and goal freshness every 3 rounds by default, or earlier when route, version, delivery audience, or evidence changes.
+- In continuous cadence, review topology, capabilities, prompt, and goal freshness by event trigger first; 3 rounds is only a fallback cap. If no route, project nature, evidence path, version, delivery audience, external boundary, or subthread-fit event changed, record lightweight keep instead of rerunning the full review.
 - Distinguish active_goal_summary, tool Goal, and round_goal; do not let a stale or completed round goal stop a still-active continuous route.
 - Do not use one long Codex tool Goal to carry dozens of continuous-cadence rounds. Store continuity in state, master prompt, closure routing, and next_route; use a narrow per-round tool Goal when a tool Goal is useful.
 - If an existing tool Goal is blocked or stale but current_basis shows the project can continue, treat it as a Goal lifecycle mismatch, not as project blockage; write protocol_round_goal / goal_migration_note and continue.

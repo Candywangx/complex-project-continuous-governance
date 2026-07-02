@@ -14,6 +14,18 @@ Use this file to make a Complex project resumable. Keep it short enough that a l
 - Last updated:
 - Owner or main thread:
 
+## Project Nature
+
+- project_nature: evidence_fill / model_discovery / mixed / execution_delivery
+- convergence_status: divergent / candidate_pool_ready / provisionally_converged / evidence_fill_ready / execution_ready
+- project_nature_router_status: pending / complete / route_back
+- anti_premature_convergence_status: not_needed / active / passed / route_back
+- candidate_frameworks:
+- divergence_budget:
+- discriminating_probe:
+- convergence_switch_conditions:
+- current scoring profile:
+
 ## User Choices
 
 - setup_question_card_status: asked / defaulted / not_needed
@@ -26,6 +38,7 @@ Use this file to make a Complex project resumable. Keep it short enough that a l
 - capability permission: local_only / public_web_ok / browser_ok / account_required / API_ok / manual_action_required
 - collaboration choice: main_thread / temporary_subagent / long_running_threads / parallel_review / undecided
 - cadence choice: single_round_then_next_route / continuous_until_stopped
+- project nature preference or trigger words:
 - evidence or privacy boundary:
 - user_visible_trigger_guide_shown: yes / no
 
@@ -57,7 +70,9 @@ Use this file to make a Complex project resumable. Keep it short enough that a l
 - rejected now:
 - backlog:
 - manual action:
-- next capability review:
+- event_triggered_capability_refresh: due / lightweight_keep / completed / blocked
+- refresh trigger:
+- next capability review or fallback cap:
 
 ## Current Basis
 

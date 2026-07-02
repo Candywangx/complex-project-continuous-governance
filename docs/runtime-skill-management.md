@@ -24,6 +24,7 @@ Confirm or default these choices:
 - External capability permission: web, browser, database, account, API, skill, plugin, connector, or external method.
 - Collaboration topology: main thread, temporary subagent, long-running thread, or parallel review.
 - Cadence: one round with a next route, or continuous cadence.
+- Project nature: evidence filling, model discovery, mixed discovery-to-evidence, or execution delivery.
 - Evidence, privacy, account, payment, publishing, or manual-action boundary.
 
 This card is not a new mandatory verifier field. It is a low-friction way to avoid hidden-trigger behavior and to keep capability use tied to user intent.
@@ -64,7 +65,7 @@ Reconsider capabilities at these points:
 - A subagent, long-running thread, or external write is being considered.
 - A final claim is about to be made.
 
-For continuous cadence, also reconsider capabilities on a fixed schedule. The default review interval is every 3 rounds: round 1, round 3, round 6, round 9, and so on. Run the review earlier if the main chain, delivery audience, project version, subthread responsibility, or evidence gap changes.
+For continuous cadence, reconsider capabilities by event trigger first. Trigger a real refresh when the main chain, project nature, delivery audience, project version, evidence path, material type, subthread responsibility, account/API boundary, external write boundary, or repeated block changes. Three rounds is only a fallback cap: if no event has fired by then, do a lightweight fit check and deepen only when something is actually stale.
 
 Small local tasks may intentionally skip broad discovery, but the skip reason should be clear.
 
@@ -98,9 +99,9 @@ For each meaningful candidate, record:
 
 This can live in a project state file, decision file, machine recovery note, or a short task note. It does not need to be a large table when a sentence is enough.
 
-## Scheduled Refresh
+## Event-Triggered Refresh
 
-Continuous projects need scheduled refresh because the best capability at round 1 may be wrong by round 4.
+Continuous projects need refresh because the best capability at round 1 may be wrong later. But a mechanical full review can also interrupt thinking, especially in model-discovery work. Use event triggers first and a 3-round fallback cap second.
 
 At each refresh point, check:
 
@@ -113,6 +114,7 @@ At each refresh point, check:
 Record one of these outcomes:
 
 - keep: still fits the current round.
+- lightweight_keep: no trigger fired; no full review needed.
 - adjust: same capability, new role or boundary.
 - replace: old capability no longer fits; use another one.
 - pause: keep in backlog but do not use now.
@@ -120,6 +122,8 @@ Record one of these outcomes:
 - retire: no longer relevant.
 
 Do not treat this refresh as a full project restart. It is a correction loop.
+
+For model-discovery work, defer broad capability refresh until there is a discriminating probe or evidence path. If the project is still comparing frames, record `capability_posture: defer_until_probe_or_evidence_path` rather than scattering attention across tools.
 
 ## Adoption Rules
 
@@ -172,6 +176,8 @@ After capability use, update the smallest useful record:
 - `templates/evidence.md` for what the capability proved.
 - `templates/decision.md` for major adoption or rejection decisions.
 - `templates/search.md` for external search and access escalation.
+- `templates/framing.md` for model-discovery framing and convergence conditions.
+- `templates/argument.md` for issue-position-argument maps.
 - `templates/loop.md` for small capability trials.
 - `templates/delivery.md` if capability output affects the final artifact.
 
