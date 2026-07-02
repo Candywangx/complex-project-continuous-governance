@@ -30,6 +30,9 @@ Use this file when the agent needs to decide route, depth, tools, collaboration,
 - review_context_reset_decision:
 - downstream_activation_reconciliation_decision:
 - residual_auto_beat_decision:
+- orchestration_contract_decision:
+- beat_router_decision:
+- termination_condition:
 
 ## Route Choice
 

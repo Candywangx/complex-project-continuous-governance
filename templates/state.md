@@ -55,6 +55,12 @@ Use this file to make a Complex project resumable. Keep it short enough that a l
 - local_boundary_effect_on_steering_words:
 - residual_auto_beat_available: yes / no
 - residual_auto_beat_type: boundary_contradiction_repair / submission_friction_reduction / non_expansion_verification / exact_operator_handoff / preflight_after_env_var / none
+- orchestration_contract_status: not_needed / pending / complete / degraded
+- capability_preflight:
+- resource_taxonomy_decision:
+- authorization_status:
+- beat_router_decision: CONTINUE / SPAWN_SUBAGENT / CREATE_THREAD / CREATE_AUTOMATION / INTERRUPT_FOR_INPUT / STOP_COMPLETE
+- termination_condition:
 
 ## User Choices
 

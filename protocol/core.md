@@ -88,6 +88,17 @@ Output:
 
 Do not execute business work before confirmation unless the user explicitly authorizes it.
 
+`orchestration_contract`: when the user asks for Plan mode, continuous cadence, Goal mode, long-running threads, subagents, automation, or clean-context review, the Plan must design the runtime orchestration before business execution. This contract is not optional wording; it decides which runtime resources should be used, which are unavailable, and what the fallback is.
+
+The contract must include:
+
+- `capability_preflight`: check or state availability for Codex Goal/tool goals, user-visible Codex threads, worktree/background threads, automations/heartbeats, subagents, browser/API/account tools, and project-local scripts.
+- `resource_taxonomy`: distinguish user-visible long-running Codex threads from short-lived subagents/workers, automations/heartbeats, and per-round tool Goals. Do not call a subagent a long-running thread.
+- `authorization_status`: user-owned long threads, automations, account/API actions, external writes, publishing, and irreversible operations need explicit authorization. Short-lived read-only subagents may be used when the user requested subagents/review and the task is low-side-effect.
+- `manager_worker_contract`: main thread is the manager; workers/subagents perform bounded work and return summaries. Workers do not complete the global goal or upgrade evidence.
+- `beat_router`: every beat ends by selecting and executing or recording one route: `CONTINUE`, `SPAWN_SUBAGENT`, `CREATE_THREAD`, `CREATE_AUTOMATION`, `INTERRUPT_FOR_INPUT`, or `STOP_COMPLETE`.
+- `termination_conditions`: goal complete, true external input missing, permission/account/API missing, no-write/evidence boundary, budget/time/safety limit, or user-only judgment.
+
 `round_prompt_rehydration_gate` applies before each new Plan/Loop in a prompt-based or continuous project. Recover the master prompt or `active_goal_summary`, current state, and `round_goal` into `round_execution_prompt`.
 
 Each round plan must say what comes from:

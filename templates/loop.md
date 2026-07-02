@@ -40,6 +40,9 @@ Use this file for a 5-30 minute small loop that tests the biggest uncertainty be
 - review context reset:
 - downstream activation reconciliation:
 - residual auto beat:
+- orchestration contract:
+- beat router:
+- termination condition:
 - capability review due: yes / no
 - capability decision:
 - capability refresh mode: event_triggered / fallback_cap / lightweight_keep

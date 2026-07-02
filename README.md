@@ -36,6 +36,8 @@ When `连续节拍` is selected, it means runtime activation: each beat should c
 
 When Complex is used inside another repository, local project rules can narrow steering words. The agent must reconcile requested steering words against that repo's `AGENTS.md`, `CONTEXT.md`, current state, manifests, stage boards, no-write boundaries, and manual-action records. If a true external-input boundary blocks the main route, the agent should still run allowed residual beats such as boundary contradiction repair, submission-friction reduction, non-expansion verification, or exact operator handoff before pausing.
 
+Plan mode should produce an orchestration contract before execution when the user asks for continuous cadence, Goal mode, threads, subagents, automation, or independent review. The contract must distinguish user-visible long-running Codex threads from short-lived subagents, check whether Goal/thread/automation tools are available, define manager/worker responsibilities, and end each beat through a route such as `CONTINUE`, `SPAWN_SUBAGENT`, `CREATE_THREAD`, `CREATE_AUTOMATION`, `INTERRUPT_FOR_INPUT`, or `STOP_COMPLETE`.
+
 ## Best Project Prompt
 
 ```text
@@ -81,6 +83,7 @@ Useful steering words:
 - `外部工具 / 账号 / API / skill`
 - `只要人看版`
 - `目标仓库边界对账 / 真人工边界 / 剩余可自动小拍`
+- `编排预检 / Goal mode / 长期线程 / automation / Beat Router / stop condition`
 
 ## Runtime Kit
 
@@ -118,7 +121,7 @@ pnpm -C docs/protocol_explainer_site build
 
 Expected baseline:
 
-- behavior pack: 13 cases and 13 transcript rules
+- behavior pack: 14 cases and 14 transcript rules
 - integrity verifier: `failure_count: 0`
 - site build: Vite build succeeds
 

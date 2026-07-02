@@ -12,7 +12,7 @@ Current narrative:
 
 Current next route:
 
-`use_real_project_transcripts_or_user_feedback_to_verify_downstream_activation_reconciliation_or_stop`
+`use_real_project_transcripts_or_user_feedback_to_verify_orchestration_contract_or_stop`
 
 Default decision:
 
@@ -21,6 +21,7 @@ Default decision:
 - Treat continuous cadence as active runtime activation: per-beat narrow goal, Loop, route, and safe auto-start of the next queued beat.
 - Reset independent review context every review beat; same-session review is diagnostic only.
 - When Complex is copied into another repository, reconcile steering words with local rules and true manual-action boundaries before judging activation success or failure.
+- Plan mode must design an orchestration contract before continuous execution: capability preflight, resource taxonomy, authorization status, manager/worker split, Beat Router, and stop conditions.
 - Keep the active repository free of historical logs and old output packages.
 
 ## Active Behavior Spine
