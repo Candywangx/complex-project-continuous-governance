@@ -93,14 +93,17 @@ Keep two contexts separate:
 Output:
 
 - `protocol_scan_sequence`
-- startup questions or safe defaults
+- startup questions or safe defaults; if a safe recommended default exists, choose it and label it `assumed_default` instead of asking the user to pick an internal route
 - project prompt rationale
 - `copy_ready_prompt`
 - `execution_bridge`
 
 Do not execute business work before confirmation unless the user explicitly authorizes it.
+Do not say the user selected a route unless the user actually selected it. Plan mode may ask for authority, irreversible choices, or public-facing direction changes; it should self-select routine project framing, initial cadence, and first-beat defaults when the request already asks for strong-autonomy Complex execution.
 
 `orchestration_contract`: when the user asks for Plan mode, continuous cadence, Goal mode, long-running threads, subagents, automation, or clean-context review, the Plan must design the runtime orchestration before business execution. This contract is not optional wording; it decides which runtime resources should be used, which are unavailable, and what the fallback is.
+
+`manager_owned_bootstrap`: prompt bootstrap, source resolution, project-nature judgment, first orchestration contract, and first beat queue are manager-thread responsibilities. Do not delegate these startup decisions to a background thread, subagent, or clean-context reviewer as the only route. Auxiliary resources may inspect bounded materials after the manager has a usable default route; if they stay silent, the manager continues from its own state.
 
 The contract must include:
 
@@ -122,7 +125,7 @@ The contract must include:
 
 Long-running threads, automations, and durable review lanes may mature over the first few beats. The agent should assess their fit and authorization as part of the orchestration spine; it should not treat their absence in beat one as a reason to drop Goal/Plan/Loop, beat routing, or automatic low-risk continuation.
 
-`orchestration_watchdog`: resources used for clean-context execution, background work, subagents, review lanes, automations, or user-visible threads must become observable. If a resource remains active but produces no readable contract, tool action, file change, or result within a reasonable first-beat window, mark it `degraded_or_unobservable`, record the reason, and continue through another available route such as main-thread execution, same-session diagnostic review, a smaller local beat, or `INTERRUPT_FOR_INPUT` only when no safe route remains.
+`orchestration_watchdog`: resources used for clean-context execution, background work, subagents, review lanes, automations, or user-visible threads must become observable. Activation means a real tool call, thread id, handoff packet, fact-ledger packet, returned summary, file touch, or explicit unavailable/degraded note. If a resource remains active but produces no readable contract, tool action, file change, or result within a reasonable first-beat window, mark it `degraded_or_unobservable`, record the reason, and continue through another available route such as main-thread execution, same-session diagnostic review, a smaller local beat, or `INTERRUPT_FOR_INPUT` only when no safe route remains. Do not describe a planned or silent resource as completed independent review.
 
 `round_prompt_rehydration_gate` applies before each new Plan/Loop in a prompt-based or continuous project. Recover the master prompt or `active_goal_summary`, current state, and `round_goal` into `round_execution_prompt`.
 

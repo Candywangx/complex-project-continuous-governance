@@ -109,6 +109,9 @@ Complex 来源：
 Plan 模式：
 - 如果当前界面支持 Plan 模式：先提醒用户开启 Plan 模式完成协议扫描、项目判断和 prompt/plan 设计，再进入执行。
 - 如果当前界面不支持 Plan 模式：仍先输出计划和 round_execution_prompt，不直接跳到业务执行。
+- Plan 阶段不要把内部路线选择默认抛回给用户；如果存在安全推荐项，直接按 `assumed_default` 选择并说明依据。只有主目标、授权、不可逆动作、公开口径或高风险判断变化才回问。
+- 不要把 AI 自行选择的默认项写成“用户选择了”。只有用户实际回复选择时才这样表述。
+- prompt-bootstrap、Complex/目标源解析、项目性质判断、首个 Orchestration Contract 和第一组 beat_queue 由主线程负责，不把这些启动判断唯一交给后台线程、子代理或审核通道。辅助资源静默时，主线程按已知安全路线继续。
 
 自动推进默认：
 - 如果 next_route / round_goal / state 已经给出清楚、低风险、可逆且已授权的下一步：直接进入下一拍，不要等待用户说“继续”。
@@ -126,6 +129,7 @@ Plan 模式：
 - 如果临时子代理、并行检查或只读审核能明显降低风险且不触发外部副作用：自动启用可用拓扑，而不是只建议用户以后开启。
 - 若创建用户可见长期线程、新账号/API、外部写入或不可逆动作需要授权：记录 manual_action_required，再回问。
 - 独立评审每一轮都必须清上下文、使用事实账本/只读审核线程/独立 reviewer；同 session 自评只能标为 diagnostic self-review。
+- “已启用”必须有可观察证据：工具调用、线程/worker id、handoff/fact-ledger packet、返回摘要、文件触达，或明确 unavailable/degraded。没有证据时只能写“计划启用/不可观察已降级”，不能写成已经完成独立审核。
 
 目标仓库激活对账：
 - 如果该 prompt 被复制到另一个仓库：先读取目标仓库的 AGENTS.md、CONTEXT.md、当前状态、stage board、manifest、no-write boundary 和 manual_action_required 记录。

@@ -88,6 +88,8 @@ Plan mode should produce an orchestration contract before execution when the use
 
 After the user confirms execution under continuous cadence, orchestration becomes the default runtime. Each beat should carry a visible `round_goal`, use a per-beat tool Goal when available or a recorded `protocol_round_goal` when not, maintain a small beat queue, execute the Beat Router decision, and continue through queued low-risk work until a real stop condition appears. Threads, automations, and durable review lanes can be evaluated over the first few beats; they do not need to be forced on beat one, but their maturity should be tracked instead of ignored. Any background or clean-context resource must produce an observable start signal; if it remains silent, mark it degraded and continue through another safe route.
 
+During prompt design, Complex should choose safe recommended defaults instead of asking the user to pick internal routes. User questions are for authority, irreversible choices, public-facing direction changes, or high-risk judgment. Prompt bootstrap, source resolution, project-nature judgment, and the first orchestration contract belong to the manager thread; background threads or subagents may help after that, but they are not the only startup path. A resource is only "activated" when there is observable evidence such as a tool call, thread id, handoff packet, fact ledger, returned summary, file touch, or explicit degraded note.
+
 ## Best Project Prompt
 
 ```text
